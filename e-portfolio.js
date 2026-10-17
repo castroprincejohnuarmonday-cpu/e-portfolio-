@@ -1,46 +1,32 @@
 
-window.addEventListener("load", function () {
-    const nav = document.querySelector("header nav");
+document.addEventListener("DOMContentLoaded", function () {
+
     const sections = document.querySelectorAll("main section");
+    const navLinks = document.querySelectorAll("nav a");
 
-    if (!nav) {
-        alert("Navigation not found!");
-        return;
-    }
-
-    // Hide all sections
+    // Hide all sections initially
     sections.forEach(function (section) {
-        section.hidden = true;
+        section.style.display = "none";
     });
 
-    // Hide navigation
-    nav.hidden = true;
-
-    // Create menu button
-    const button = document.createElement("button");
-    button.textContent = "Show Menu";
-    nav.before(button);
-
-    button.addEventListener("click", function () {
-        nav.hidden = !nav.hidden;
-        button.textContent = nav.hidden ? "Show Menu" : "Hide Menu";
-    });
-
-    // Display only the selected section
-    nav.querySelectorAll("a").forEach(function (link) {
+    // Show the section when its anchor is clicked
+    navLinks.forEach(function (link) {
         link.addEventListener("click", function (event) {
             event.preventDefault();
 
-            const targetId = link.getAttribute("href").slice(1);
+            const targetId = link.getAttribute("href");
+            const targetSection = document.querySelector(targetId);
 
+            // Hide all sections
             sections.forEach(function (section) {
-                section.hidden = section.id !== targetId;
+                section.style.display = "none";
             });
 
-            nav.hidden = true;
-            button.textContent = "Show Menu";
-
-            window.location.hash = targetId;
+            // Show only the selected section
+            if (targetSection) {
+                targetSection.style.display = "block";
+            }
         });
     });
+
 });
