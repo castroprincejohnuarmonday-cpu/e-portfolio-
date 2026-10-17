@@ -1,18 +1,22 @@
 
 document.addEventListener("DOMContentLoaded", function () {
     const nav = document.querySelector("nav");
+    const sections = document.querySelectorAll("main section");
 
-    // Hide navigation links at first
-    nav.style.display = "none";
+    // Hide all sections initially
+    sections.forEach(function (section) {
+        section.style.display = "none";
+    });
 
-    // Create a button
+    // Create menu toggle button
     const button = document.createElement("button");
     button.textContent = "Show Menu";
-
-    // Insert button before navigation
     nav.parentNode.insertBefore(button, nav);
 
-    // Toggle navigation visibility
+    // Hide navigation initially
+    nav.style.display = "none";
+
+    // Toggle menu visibility
     button.addEventListener("click", function () {
         if (nav.style.display === "none") {
             nav.style.display = "block";
@@ -22,5 +26,21 @@ document.addEventListener("DOMContentLoaded", function () {
             button.textContent = "Show Menu";
         }
     });
+
+    // Show only the selected section
+    nav.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+            const targetId = link.getAttribute("href").substring(1);
+
+            sections.forEach(function (section) {
+                section.style.display =
+                    section.id === targetId ? "block" : "none";
+            });
+
+            nav.style.display = "none";
+            button.textContent = "Show Menu";
+        });
+    });
 });
+
 
