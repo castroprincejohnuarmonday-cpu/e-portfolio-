@@ -1,46 +1,46 @@
 
-document.addEventListener("DOMContentLoaded", function () {
-    const nav = document.querySelector("nav");
+window.addEventListener("load", function () {
+    const nav = document.querySelector("header nav");
     const sections = document.querySelectorAll("main section");
 
-    // Hide all sections initially
+    if (!nav) {
+        alert("Navigation not found!");
+        return;
+    }
+
+    // Hide all sections
     sections.forEach(function (section) {
-        section.style.display = "none";
+        section.hidden = true;
     });
 
-    // Create menu toggle button
+    // Hide navigation
+    nav.hidden = true;
+
+    // Create menu button
     const button = document.createElement("button");
     button.textContent = "Show Menu";
-    nav.parentNode.insertBefore(button, nav);
+    nav.before(button);
 
-    // Hide navigation initially
-    nav.style.display = "none";
-
-    // Toggle menu visibility
     button.addEventListener("click", function () {
-        if (nav.style.display === "none") {
-            nav.style.display = "block";
-            button.textContent = "Hide Menu";
-        } else {
-            nav.style.display = "none";
-            button.textContent = "Show Menu";
-        }
+        nav.hidden = !nav.hidden;
+        button.textContent = nav.hidden ? "Show Menu" : "Hide Menu";
     });
 
-    // Show only the selected section
+    // Display only the selected section
     nav.querySelectorAll("a").forEach(function (link) {
-        link.addEventListener("click", function () {
-            const targetId = link.getAttribute("href").substring(1);
+        link.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            const targetId = link.getAttribute("href").slice(1);
 
             sections.forEach(function (section) {
-                section.style.display =
-                    section.id === targetId ? "block" : "none";
+                section.hidden = section.id !== targetId;
             });
 
-            nav.style.display = "none";
+            nav.hidden = true;
             button.textContent = "Show Menu";
+
+            window.location.hash = targetId;
         });
     });
 });
-
-
