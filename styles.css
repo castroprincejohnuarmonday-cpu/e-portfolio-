@@ -139,4 +139,10 @@ h3 {
 #wihl h2 {
   text-align: center;
 }
+#wihl p {
+  text-align: justify;
+  margin: 30px auto;
+  padding: 0 40px;
+}
+
 
